@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Cancelled</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        a {
+            color: blue;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .small-text {
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Redirecting to the Merchant Site</h2>
+        <p>This may take a few seconds</p>
+        <h1>Sorry for your order</h1>
+        <p>Your payment of <strong>20.00 BDT</strong> is <span class="error">CANCELLED (Payment Cancelled)</span>.</p>
+        <p>Payment ref id <strong>BGT</strong><strong id="paymentRefId"></strong></p>
+        <hr>
+        <p><strong>Payment Channel</strong> - bKash Payment Gateway</p>
+        <p><strong>Reason for Declined</strong> - <span class="error">Payment Cancelled</span></p>
+        <p><a href="https://pay-bkash.vercel.app">Re-try</a> to pay by other payment channel</p>
+        <p><a href="https://luxurymembership.vercel.app/">Try later</a> to pay and go to merchant website</p>
+        <p class="small-text">...</p>
+    </div>
+
+    <script>
+        // Function to generate random 22-digit alphanumeric string
+        function generatePaymentRefId() {
+            const chars = '0123456789';
+            let refId = '';
+            for (let i = 0; i < 18; i++) {
+                refId += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return refId;
+        }
+
+        // Set the random Payment ref id in the HTML
+        document.getElementById('paymentRefId').innerText = generatePaymentRefId();
+    </script>
+
+</body>
+</html>
